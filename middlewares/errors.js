@@ -5,10 +5,14 @@ function notFound(req, res, next) {
 }
 
 function handlerError(err, req, res, next) {
-  res.status(500).json({
+  const data = {
     messagge: "internal server error",
-    error: error.messagge,
-  });
+  };
+
+  if (process.env.DEBUG_MODE === "true") {
+    data.error = err.messagge;
+  }
+  res.status(500).json(data);
 }
 
 module.exports = { notFound, handlerError };

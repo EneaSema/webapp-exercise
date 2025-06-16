@@ -13,9 +13,16 @@ app.use(express.static("pubblic"));
 app.use(express.json()); // per body parcel per trasformare le risposte dei form in json
 
 // ROUTES
+const connection = require("./db/conn.js");
+
 app.get("/", (req, res) => {
-  console.log(abc);
-  res.json("benvenuto sul backend");
+  connection.query(`SELECT * FROM movies_db`),
+    (err, results) => {
+      if (err) throw err;
+      res.json({
+        movies: results,
+      });
+    };
 });
 
 //ERRORS
