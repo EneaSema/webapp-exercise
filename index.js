@@ -1,6 +1,7 @@
 //IMPORTS
 require(`dotenv`).config();
 const express = require("express");
+const movieRouter = require("./routers/movieRouter.js");
 const { notFound, handlerError } = require("./middlewares/errors.js");
 
 //CONFIGURES
@@ -13,17 +14,7 @@ app.use(express.static("pubblic"));
 app.use(express.json()); // per body parcel per trasformare le risposte dei form in json
 
 // ROUTES
-const connection = require("./db/conn.js");
-
-app.get("/", (req, res) => {
-  connection.query(`SELECT * FROM movies_db`),
-    (err, results) => {
-      if (err) throw err;
-      res.json({
-        movies: results,
-      });
-    };
-});
+app.use("/movies", movieRouter);
 
 //ERRORS
 app.use(handlerError);
