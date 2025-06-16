@@ -1,10 +1,28 @@
-express = require("express");
-app = express();
+//IMPORTS
+require(`dotenv`).config();
+const express = require("express");
+const { notFound, handlerError } = require("./middlewares/errors.js");
 
-app.listen("/", (req, res) => {
-  console.log("benvenuto sul backend");
+//CONFIGURES
+app = express();
+const { APP_URL, APP_PORT } = process.env;
+const host = `${APP_URL}:${APP_PORT}`;
+
+// MIDDLEWARES
+app.use(express.static("pubblic"));
+app.use(express.json()); // per body parcel per trasformare le risposte dei form in json
+
+// ROUTES
+app.get("/", (req, res) => {
+  console.log(abc);
+  res.json("benvenuto sul backend");
 });
 
-app.listen(3000, () => {
-  console.log(" serve in ascolto su http://localhost:3000");
+//ERRORS
+app.use(handlerError);
+app.use(notFound);
+
+//LISTEN
+app.listen(APP_PORT, () => {
+  console.log(`serve in ascolto su ${host}`);
 });
