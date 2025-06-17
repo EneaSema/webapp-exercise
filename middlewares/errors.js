@@ -12,6 +12,7 @@ function handlerError(err, req, res, next) {
   if (process.env.DEBUG_MODE === "true") {
     data.error = err.messagge;
   }
+  console.error(data);
   res.status(500).json(data);
 }
 
